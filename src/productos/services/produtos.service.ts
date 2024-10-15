@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { ActualizarProductoDto } from 'src/dtos/actualizar-producto.dto';
-import { CrearProductoDto } from 'src/dtos/crear-producto.dto';
-import { Producto } from 'src/entities/producto.entity';
+import { ActualizarProductoDto } from 'src/productos/dtos/producto-actualizar.dto';
+import { CrearProductoDto } from 'src/productos/dtos/producto-crear.dto';
+import { Producto } from 'src/productos/entities/producto.entity';
 
 @Injectable()
 export class ProdutosService {
