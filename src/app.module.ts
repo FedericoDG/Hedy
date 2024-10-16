@@ -6,9 +6,31 @@ import { AppService } from './app.service';
 import { OperadoresModule } from './operadores/operadores.module';
 import { ProductosModule } from './productos/productos.module';
 import { DatabaseModule } from './database/database.module';
+import { ConfigModule } from '@nestjs/config';
+import { environments } from 'src/enviroments';
+import config from 'src/config';
+import * as Joi from 'joi';
 
 @Module({
-  imports: [HttpModule, OperadoresModule, ProductosModule, DatabaseModule],
+  imports: [
+    HttpModule,
+    OperadoresModule,
+    ProductosModule,
+    DatabaseModule,
+    ConfigModule.forRoot({
+      envFilePath: environments[process.env.NODE_ENV] || environments['dev'],
+      load: [config], // archivo de tipado
+      validationSchema: Joi.object({
+        APIKEY: Joi.string().required(),
+        DB_HOST: Joi.string().required(),
+        DB_PORT: Joi.number().default(5432),
+        DB_USER: Joi.string().required(),
+        DB_PASSWORD: Joi.string().required(),
+        DB_NAME: Joi.string().required(),
+      }), // validaciones con Joi
+      isGlobal: true,
+    }),
+  ],
   controllers: [AppController],
   providers: [
     AppService,
