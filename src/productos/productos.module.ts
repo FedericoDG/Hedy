@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { CategoriasController } from './controllers/categorias.controller';
 import { FabricantesController } from './controllers/fabricantes.controller';
 import { ProductosController } from './controllers/productos.controller';
-import { ProdutosService } from './services/produtos.service';
+import { ProductosService } from './services/produtos.service';
 import { CategoriasService } from './services/categorias.service';
 import { FabricantesService } from './services/fabricantes.service';
 
@@ -12,6 +12,7 @@ import { FabricantesService } from './services/fabricantes.service';
     ProductosController,
     CategoriasController,
   ],
-  providers: [ProdutosService, CategoriasService, FabricantesService],
+  providers: [ProductosService, CategoriasService, FabricantesService],
+  exports: [ProductosService],
 })
 export class ProductosModule {}

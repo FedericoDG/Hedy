@@ -1,8 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  constructor(
+    @Inject('APIKEY') private apiKey: string,
+    @Inject('TAREA_ASYNC') private readonly tarea: any,
+  ) {}
+
+  getApiKey(): string {
+    return `La llave de la aplicación es ${this.apiKey}`;
+  }
+
+  getUseFactory(): string {
+    console.log(this.tarea); // -> post de  https://jsonplaceholder.typicode.com
+    return 'Realizando una tarea asincrona de ejemplo';
   }
 }

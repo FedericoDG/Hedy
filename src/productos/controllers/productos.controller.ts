@@ -10,11 +10,11 @@ import {
 import { ActualizarProductoDto } from 'src/productos/dtos/producto-actualizar.dto';
 import { CrearProductoDto } from 'src/productos/dtos/producto-crear.dto';
 import { Producto } from 'src/productos/entities/producto.entity';
-import { ProdutosService } from 'src/productos/services/produtos.service';
+import { ProductosService } from 'src/productos/services/produtos.service';
 
 @Controller('productos')
 export class ProductosController {
-  constructor(private readonly productService: ProdutosService) {}
+  constructor(private readonly productService: ProductosService) {}
 
   @Get()
   getProducts() {

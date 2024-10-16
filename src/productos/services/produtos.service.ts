@@ -4,7 +4,7 @@ import { CrearProductoDto } from 'src/productos/dtos/producto-crear.dto';
 import { Producto } from 'src/productos/entities/producto.entity';
 
 @Injectable()
-export class ProdutosService {
+export class ProductosService {
   private idCount = 1;
   private productos: Producto[] = [
     {
