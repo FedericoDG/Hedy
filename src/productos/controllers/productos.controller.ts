@@ -13,8 +13,8 @@ import { CrearProductoDto } from 'src/productos/dtos/producto-crear.dto';
 import { Producto } from 'src/productos/entities/producto.entity';
 import { ProductosService } from 'src/productos/services/produtos.service';
 
-@ApiTags('productos')
 @Controller('productos')
+@ApiTags('productos')
 export class ProductosController {
   constructor(private readonly productService: ProductosService) {}
 
