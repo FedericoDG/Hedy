@@ -19,14 +19,14 @@ const APIKEYPROD = 'PROD-12345';
         const {
           user,
           host,
-          name: dbName,
+          name: database,
           password,
           port,
         } = configService.postgres;
         const client = new Client({
           user,
           host,
-          database: dbName,
+          database: database,
           password,
           port,
         });
