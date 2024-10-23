@@ -15,11 +15,11 @@ export class AppService {
   getApiKey(): string {
     // return `La llave de la aplicación es ${this.apiKey}`;
     // const apiKey = this.configService.get('APIKEY');
-    // const dbPassword = this.configService.get('DB_PASSWORD');
+    // const dbPassword = this.configService.get('PG_PASSWORD');
     // return `La api-key de la aplicación es ${apiKey} y la contraseña es ${dbPassword}... Pero no le cuentes a nadie!.`;
 
     const apiKey = this.configService.apiKey;
-    const dbPassword = this.configService.database.password;
+    const dbPassword = this.configService.postgres.password;
     return `La api-key de la aplicación es ${apiKey} y la contraseña es ${dbPassword}... Pero no le cuentes a nadie!.`;
   }
 

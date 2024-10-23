@@ -18,4 +18,8 @@ export class OperadoresController {
   getOrders(@Param('id', ParseIntPipe) id: number) {
     return this.operadoresService.getOrderByUser(id);
   }
+  @Get('tareas')
+  getTasks() {
+    return this.operadoresService.getTasks();
+  }
 }

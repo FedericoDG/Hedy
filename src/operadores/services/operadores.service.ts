@@ -1,8 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ProductosService } from 'src/productos/services/produtos.service';
 import { Pedido } from '../entities/pedido.entity';
 import { Operador } from '../entities/operador.entity';
 import { ConfigService } from '@nestjs/config';
+import { Client } from 'pg';
 
 @Injectable()
 export class OperadoresService {
@@ -32,6 +33,7 @@ export class OperadoresService {
     private readonly productsService: ProductosService,
     // @Inject('APIKEY') private apiKey: string,
     private readonly configService: ConfigService,
+    @Inject('PG') private readonly clientPg: Client,
   ) {}
 
   findAll() {
@@ -40,14 +42,14 @@ export class OperadoresService {
       throw new NotFoundException('No se encuentran operadores');
     }
 
-    const dbHost = this.configService.get('DB_HOST');
-    const dbPort = this.configService.get('DB_PORT');
-    const dbUser = this.configService.get('DB_USER');
-    const dbPassword = this.configService.get('DB_PASSWORD');
-    const dbName = this.configService.get('DB_NAME');
+    const dbHost = this.configService.get('PG_HOST');
+    const dbPort = this.configService.get('PG_PORT');
+    const dbUser = this.configService.get('PG_USER');
+    const dbPassword = this.configService.get('PG_PASSWORD');
+    const dbName = this.configService.get('PG_NAME');
 
     console.log(
-      `DB_HOST: ${dbHost}, DB_PORT: ${dbPort}, DB_USER: ${dbUser}, DB_PASSWORD: ${dbPassword}, DB_NAME: ${dbName}`,
+      `PG_HOST: ${dbHost}, PG_PORT: ${dbPort}, PG_USER: ${dbUser}, PG_PASSWORD: ${dbPassword}, PG_NAME: ${dbName}`,
     );
     return operadores;
   }
@@ -97,5 +99,16 @@ export class OperadoresService {
     }
     this.operadores.splice(index, 1);
     return true;
+  }
+  getTasks() {
+    return new Promise((resolve, reject) => {
+      this.clientPg.query('SELECT * FROM tareas', (err, res) => {
+        if (err) {
+          console.log(err);
+          reject(err);
+        }
+        resolve(res.rows);
+      });
+    });
   }
 }
