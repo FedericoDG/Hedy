@@ -26,7 +26,7 @@ const APIKEYPROD = 'PROD-12345';
         const client = new Client({
           user,
           host,
-          database: database,
+          database,
           password,
           port,
         });
