@@ -1,13 +1,62 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { ProductosService } from 'src/productos/services/produtos.service';
-import { Pedido } from '../entities/pedido.entity';
+import * as bcrypt from 'bcrypt';
+import { Repository } from 'typeorm';
+
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+
+import { ActualizarOperadorDto } from '../dtos/operador-actualizar.dto';
+import { CrearOperadorDto } from '../dtos/operador-crear.dto';
 import { Operador } from '../entities/operador.entity';
-import { ConfigService } from '@nestjs/config';
-import { Client } from 'pg';
 
 @Injectable()
 export class OperadoresService {
-  private idCont = 1;
+  constructor(
+    //@Inject('PG') private readonly clientPg: Client, //private readonly configService: ConfigService, //private readonly productsService: ProductosService, // @Inject('APIKEY') private apiKey: string,
+    @InjectRepository(Operador)
+    private readonly operatorRepository: Repository<Operador>,
+  ) {}
+  async findAll() {
+    return await this.operatorRepository.find();
+  }
+
+  async findOne(id: number) {
+    const product = await this.operatorRepository.findOneBy({ id });
+
+    if (!product) throw new NotFoundException(`No existe el operador con id: ${id}`);
+
+    return product;
+  }
+
+  async create(operator: CrearOperadorDto) {
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(operator.password, saltRounds);
+
+    const newOperator = this.operatorRepository.create({
+      ...operator,
+      password: hashedPassword,
+    });
+
+    return await this.operatorRepository.save(newOperator);
+  }
+
+  async update(id: number, updatedOperator: ActualizarOperadorDto) {
+    const operator = await this.operatorRepository.findOneBy({ id });
+    if (!operator) throw new NotFoundException(`No existe el operador con id: ${id}`);
+
+    if (updatedOperator.password) {
+      const saltRounds = 10;
+      updatedOperator.password = await bcrypt.hash(updatedOperator.password, saltRounds);
+    }
+
+    this.operatorRepository.merge(operator, updatedOperator);
+    return await this.operatorRepository.save(operator);
+  }
+
+  delete(id: number) {
+    return this.operatorRepository.delete(id);
+  }
+
+  /*  private idCont = 1;
   private operadores: Operador[] = [
     {
       id: 1,
@@ -28,14 +77,6 @@ export class OperadoresService {
       role: 'user',
     },
   ];
-
-  constructor(
-    private readonly productsService: ProductosService,
-    // @Inject('APIKEY') private apiKey: string,
-    private readonly configService: ConfigService,
-    @Inject('PG') private readonly clientPg: Client,
-  ) {}
-
   findAll() {
     const operadores = this.operadores;
     if (!operadores) {
@@ -83,7 +124,7 @@ export class OperadoresService {
     return this.operadores[index];
   }
 
-  getOrderByUser(id: number): Pedido {
+  async getOrderByUser(id: number) {
     const operador = this.findOne(id);
     return {
       date: new Date(),
@@ -110,5 +151,5 @@ export class OperadoresService {
         resolve(res.rows);
       });
     });
-  }
+  } */
 }

@@ -1,61 +1,48 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ActualizarProductoDto } from 'src/productos/dtos/producto-actualizar.dto';
-import { CrearProductoDto } from 'src/productos/dtos/producto-crear.dto';
-import { Producto } from 'src/productos/entities/producto.entity';
-import { ProductosService } from 'src/productos/services/produtos.service';
 
+import { ActualizarProductoDto } from '../../productos/dtos/producto-actualizar.dto';
+import { CrearProductoDto } from '../../productos/dtos/producto-crear.dto';
+import { ProductosService } from '../../productos/services/produtos.service';
+
+@ApiTags('Productos')
 @Controller('productos')
-@ApiTags('productos')
 export class ProductosController {
   constructor(private readonly productService: ProductosService) {}
 
   @Get()
   @ApiOperation({ summary: 'Lista todos los productos' })
-  getProducts() {
+  findAll() {
     return this.productService.findAll();
   }
 
-  @Get('/:idProduct')
-  @ApiOperation({ summary: 'Lista un solo producto, por ID' })
-  getProduct(@Param('idProduct') idProduct: string) {
-    return this.productService.findOne(parseInt(idProduct));
+  @Get('/:id')
+  @ApiOperation({ summary: 'Lista un solo producto, por id' })
+  findOne(@Param('id') id: string) {
+    return this.productService.findOne(parseInt(id));
   }
 
   @Post()
   @ApiOperation({ summary: 'Crea un nuevo producto' })
-  createProduct(@Body() producto: CrearProductoDto): Producto {
+  create(@Body() producto: CrearProductoDto) {
     return this.productService.create(producto);
   }
 
-  @Patch('/:idProduct')
+  @Patch('/:id')
   @ApiOperation({ summary: 'Actualiza un producto' })
-  updateProducto(
-    @Param('idProduct') idProduct: string,
-    @Body() body: ActualizarProductoDto,
-  ): Producto {
-    const upodatedProduct = this.productService.update(
-      parseInt(idProduct),
-      body,
-    );
+  update(@Param('id') id: string, @Body() body: ActualizarProductoDto) {
+    const upodatedProduct = this.productService.update(parseInt(id), body);
+
     return upodatedProduct;
   }
 
-  @Delete(':idProduct')
-  @ApiOperation({ summary: '' })
-  deleteProducto(@Param('idProduct') idProduct: string): Record<string, any> {
-    this.productService.remove(parseInt(idProduct));
+  @Delete(':id')
+  @ApiOperation({ summary: 'Elimina un producto' })
+  delete(@Param('id') id: string): Record<string, any> {
+    this.productService.delete(parseInt(id));
+
     return {
-      message: 'Producto eliminado',
-      idProduct: idProduct,
+      message: `Producto con id ${id} eliminado`,
     };
   }
 }

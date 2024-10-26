@@ -1,15 +1,17 @@
-import { Module } from '@nestjs/common';
-import { HttpModule, HttpService } from '@nestjs/axios';
+import * as Joi from 'joi';
 import { lastValueFrom } from 'rxjs/internal/lastValueFrom';
+
+import { HttpModule, HttpService } from '@nestjs/axios';
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import config from './config';
+import { DatabaseModule } from './database/database.module';
+import { environments } from './enviroments';
 import { OperadoresModule } from './operadores/operadores.module';
 import { ProductosModule } from './productos/productos.module';
-import { DatabaseModule } from './database/database.module';
-import { ConfigModule } from '@nestjs/config';
-import { environments } from 'src/enviroments';
-import config from 'src/config';
-import * as Joi from 'joi';
 
 @Module({
   imports: [
