@@ -24,7 +24,7 @@ import { ProductosModule } from './productos/productos.module';
         PG_PORT: Joi.number().default(5432),
         PG_USER: Joi.string().required(),
         PG_PASSWORD: Joi.string().required(),
-        PG_NAME: Joi.string().required(),
+        PG_DATABASE: Joi.string().required(),
       }), // validaciones con Joi
       isGlobal: true,
     }),

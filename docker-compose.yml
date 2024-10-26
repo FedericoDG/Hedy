@@ -6,7 +6,7 @@ services:
     container_name: calilegua-postgres
     restart: always
     environment:
-      POSTGRES_DB: ${PG_NAME}
+      POSTGRES_DB: ${PG_DATABASE}
       POSTGRES_USER: ${PG_USER}
       POSTGRES_PASSWORD: ${PG_PASSWORD}
     ports:
