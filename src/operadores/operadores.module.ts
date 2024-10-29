@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { CompradoresSeederService } from '../database/seeds/comprador.seeder';
+import { OperadoresSeederService } from '../database/seeds/operador.seeder';
 import { ProductosModule } from '../productos/productos.module';
 import { CompradoresController } from './controllers/compradores.controller';
 import { OperadoresController } from './controllers/operadores.controller';
 import { PedidosController } from './controllers/pedidos.controller';
 import { Comprador } from './entities/comprador.entity';
 import { Operador } from './entities/operador.entity';
-import { CompradoresSeederService } from './seeds/comprador.seeder';
-import { OperadoresSeederService } from './seeds/operador.seeder';
 import { CompradoresService } from './services/compradores.service';
 import { OperadoresService } from './services/operadores.service';
 import { PedidosService } from './services/pedidos.service';

@@ -20,7 +20,7 @@ export class OperadoresService {
   }
 
   async findOne(id: number) {
-    const product = await this.operatorRepository.findOneBy({ id });
+    const product = await this.operatorRepository.findOne({ id });
 
     if (!product) throw new NotFoundException(`No existe el operador con id: ${id}`);
 
@@ -40,7 +40,7 @@ export class OperadoresService {
   }
 
   async update(id: number, updatedOperator: ActualizarOperadorDto) {
-    const operator = await this.operatorRepository.findOneBy({ id });
+    const operator = await this.operatorRepository.findOne({ id });
     if (!operator) throw new NotFoundException(`No existe el operador con id: ${id}`);
 
     if (updatedOperator.password) {

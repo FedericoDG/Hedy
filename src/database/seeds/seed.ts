@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from '../../app.module';
-import { CompradoresSeederService } from '../../operadores/seeds/comprador.seeder';
-import { OperadoresSeederService } from '../../operadores/seeds/operador.seeder';
-import { CategoriasSeederService } from '../../productos/seeds/categoria.seeder';
-import { FabricantesSeederService } from '../../productos/seeds/fabricante.seeder';
-import { ProductosSeederService } from '../../productos/seeds/producto.seeder';
+import { CategoriasSeederService } from './categoria.seeder';
+import { CompradoresSeederService } from './comprador.seeder';
+import { FabricantesSeederService } from './fabricante.seeder';
+import { OperadoresSeederService } from './operador.seeder';
+import { ProductosSeederService } from './producto.seeder';
 
 async function seed() {
   const app = await NestFactory.createApplicationContext(AppModule);

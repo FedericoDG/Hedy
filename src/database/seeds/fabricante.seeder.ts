@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Fabricante } from '../entities/fabricante.entity';
+import { Fabricante } from '../../productos/entities/fabricante.entity';
 
 const manufacturers = [
   {

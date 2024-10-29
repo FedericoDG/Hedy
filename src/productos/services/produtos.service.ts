@@ -19,7 +19,7 @@ export class ProductosService {
   }
 
   async findOne(id: number) {
-    const product = await this.productRepository.findOneBy({ id });
+    const product = await this.productRepository.findOne({ id });
 
     if (!product) throw new NotFoundException(`No existe el producto con id: ${id}`);
 
@@ -33,7 +33,7 @@ export class ProductosService {
   }
 
   async update(id: number, updatedProduct: ActualizarProductoDto) {
-    const product = await this.productRepository.findOneBy({ id });
+    const product = await this.productRepository.findOne({ id });
 
     if (!product) throw new NotFoundException(`No existe el producto con id: ${id}`);
 

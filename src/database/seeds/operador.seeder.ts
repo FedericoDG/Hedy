@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Operador } from '../entities/operador.entity';
+import { Operador } from '../../operadores/entities/operador.entity';
 
 const operators = [
   {

@@ -45,7 +45,7 @@ const APIKEYPROD = 'PROD-12345';
           username,
           password,
           database,
-          synchronize: true,
+          synchronize: false,
           autoLoadEntities: true,
           logging: false,
         };
