@@ -45,9 +45,9 @@ export class CompradoresSeederService {
       const count = await this.compradorRepository.count();
 
       if (count > 0) {
-        await this.compradorRepository.clear();
-
-        await this.compradorRepository.query('ALTER SEQUENCE comprador_id_seq RESTART WITH 1');
+        await this.compradorRepository.query(
+          `TRUNCATE TABLE operador, comprador RESTART IDENTITY CASCADE;`,
+        );
       }
 
       await this.compradorRepository.save(buyers);

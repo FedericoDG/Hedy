@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+
+import { Operador } from './operador.entity';
 
 @Entity()
 export class Comprador {
@@ -13,4 +15,9 @@ export class Comprador {
 
   @Column({ type: 'varchar', length: 14 })
   telefono: string;
+
+  @OneToOne(() => Operador, (operador) => operador.comprador, {
+    nullable: true,
+  })
+  operador: Operador;
 }

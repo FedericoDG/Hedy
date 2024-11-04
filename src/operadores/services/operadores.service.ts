@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ActualizarOperadorDto } from '../dtos/operador-actualizar.dto';
 import { CrearOperadorDto } from '../dtos/operador-crear.dto';
 import { Operador } from '../entities/operador.entity';
+import { CompradoresService } from './compradores.service';
 
 @Injectable()
 export class OperadoresService {
@@ -14,22 +15,36 @@ export class OperadoresService {
     //@Inject('PG') private readonly clientPg: Client, //private readonly configService: ConfigService, //private readonly productsService: ProductosService, // @Inject('APIKEY') private apiKey: string,
     @InjectRepository(Operador)
     private readonly operatorRepository: Repository<Operador>,
+    private readonly compradorService: CompradoresService,
   ) {}
   async findAll() {
-    return await this.operatorRepository.find();
+    return await this.operatorRepository.find({
+      relations: ['comprador'],
+    });
   }
 
   async findOne(id: number) {
-    const product = await this.operatorRepository.findOne({ id });
+    const operator = await this.operatorRepository.findOne(id, {
+      relations: ['comprador'],
+    });
 
-    if (!product) throw new NotFoundException(`No existe el operador con id: ${id}`);
+    if (!operator) throw new NotFoundException(`No existe el operador con id: ${id}`);
 
-    return product;
+    return operator;
   }
 
   async create(operator: CrearOperadorDto) {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(operator.password, saltRounds);
+
+    if (operator.compradorId) {
+      const buyer = await this.compradorService.findOne(operator.compradorId);
+
+      if (!buyer)
+        throw new NotFoundException(`No existe el comprador con id: ${operator.compradorId}`);
+
+      operator.compradorId = buyer.id;
+    }
 
     const newOperator = this.operatorRepository.create({
       ...operator,
@@ -46,6 +61,17 @@ export class OperadoresService {
     if (updatedOperator.password) {
       const saltRounds = 10;
       updatedOperator.password = await bcrypt.hash(updatedOperator.password, saltRounds);
+    }
+
+    if (updatedOperator.compradorId) {
+      const buyer = await this.compradorService.findOne(updatedOperator.compradorId);
+
+      if (!buyer)
+        throw new NotFoundException(
+          `No existe el comprador con id: ${updatedOperator.compradorId}`,
+        );
+
+      updatedOperator.compradorId = buyer.id;
     }
 
     this.operatorRepository.merge(operator, updatedOperator);

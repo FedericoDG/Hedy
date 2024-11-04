@@ -35,9 +35,7 @@ export class CategoriasSeederService {
       const count = await this.categoryRepository.count();
 
       if (count > 0) {
-        await this.categoryRepository.clear();
-
-        await this.categoryRepository.query('ALTER SEQUENCE categoria_id_seq RESTART WITH 1');
+        await this.categoryRepository.query(`TRUNCATE TABLE categoria RESTART IDENTITY CASCADE;`);
       }
 
       await this.categoryRepository.save(categories);

@@ -50,9 +50,9 @@ export class FabricantesSeederService {
       const count = await this.manufacturerRepository.count();
 
       if (count > 0) {
-        await this.manufacturerRepository.clear();
-
-        await this.manufacturerRepository.query('ALTER SEQUENCE fabricante_id_seq RESTART WITH 1');
+        await this.manufacturerRepository.query(
+          `TRUNCATE TABLE fabricante RESTART IDENTITY CASCADE;`,
+        );
       }
 
       await this.manufacturerRepository.save(manufacturers);

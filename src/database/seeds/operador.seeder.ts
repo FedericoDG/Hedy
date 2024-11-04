@@ -10,6 +10,7 @@ const operators = [
     email: 'operador1@example.com',
     password: '$2b$10$KWJyENB5LoLvb3NGkAPnSu/xT3rW2xn/HB02NZ3R8SemEC/NzOP.G',
     role: 'admin',
+    comprador: { id: 1 },
   },
   {
     email: 'operador2@example.com',
@@ -35,9 +36,9 @@ export class OperadoresSeederService {
       const count = await this.operadorRepository.count();
 
       if (count > 0) {
-        await this.operadorRepository.clear();
-
-        await this.operadorRepository.query('ALTER SEQUENCE operador_id_seq RESTART WITH 1');
+        await this.operadorRepository.query(
+          `TRUNCATE TABLE operador, comprador RESTART IDENTITY CASCADE;`,
+        );
       }
 
       await this.operadorRepository.save(operators);

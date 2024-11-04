@@ -100,9 +100,7 @@ export class ProductosSeederService {
       const count = await this.productoRepository.count();
 
       if (count > 0) {
-        await this.productoRepository.clear();
-
-        await this.productoRepository.query('ALTER SEQUENCE producto_id_seq RESTART WITH 1');
+        await this.productoRepository.query(`TRUNCATE TABLE producto RESTART IDENTITY CASCADE;`);
       }
 
       await this.productoRepository.save(products);
