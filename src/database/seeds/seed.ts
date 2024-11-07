@@ -9,15 +9,15 @@ import { ProductosSeederService } from './producto.seeder';
 
 async function seed() {
   const app = await NestFactory.createApplicationContext(AppModule);
-  const productSeeder = app.get(ProductosSeederService);
   const manufacterSeeder = app.get(FabricantesSeederService);
   const categorySeeder = app.get(CategoriasSeederService);
+  const productSeeder = app.get(ProductosSeederService);
   const buyerSeeder = app.get(CompradoresSeederService);
   const operatorSeeder = app.get(OperadoresSeederService);
 
-  await productSeeder.seed();
   await manufacterSeeder.seed();
   await categorySeeder.seed();
+  await productSeeder.seed();
   await buyerSeeder.seed();
   await operatorSeeder.seed();
 

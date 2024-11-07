@@ -19,7 +19,9 @@ export class FabricantesService {
   }
 
   async findOne(id: number) {
-    const manufacturer = await this.manufacturerRepository.findOne({ id });
+    const manufacturer = await this.manufacturerRepository.findOne(id, {
+      relations: ['productos'],
+    });
 
     if (!manufacturer) throw new NotFoundException(`No existe el fabricante con id: ${id}`);
 

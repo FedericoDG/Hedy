@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { ActualizarProductoDto } from '../../productos/dtos/producto-actualizar.dto';
@@ -34,6 +34,24 @@ export class ProductosController {
     const upodatedProduct = this.productService.update(parseInt(id), body);
 
     return upodatedProduct;
+  }
+
+  @Patch('/:productId/categorias/:categoryId')
+  @ApiOperation({ summary: 'Añade una categoría a un producto' })
+  addCategoryToProduct(
+    @Param('productId') productId: string,
+    @Param('categoryId', ParseIntPipe) categoryId: string,
+  ) {
+    return this.productService.addCategoryByProduct(parseInt(productId), parseInt(categoryId));
+  }
+
+  @Delete('/:productId/categorias/:categoryId')
+  @ApiOperation({ summary: 'Elimina una categoría de un producto' })
+  removeCategoryFromProduct(
+    @Param('productId') productId: string,
+    @Param('categoryId', ParseIntPipe) categoryId: string,
+  ) {
+    return this.productService.removeCategoryByProduct(parseInt(productId), parseInt(categoryId));
   }
 
   @Delete(':id')
