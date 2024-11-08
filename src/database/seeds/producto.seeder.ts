@@ -169,11 +169,6 @@ export class ProductosSeederService {
         })
         .filter((p) => p !== null);
 
-      console.log(
-        'Productos con categorías listos para guardar:',
-        productsWithFabricanteAndCategorias,
-      );
-
       await this.productoRepository.save(productsWithFabricanteAndCategorias);
       console.log('Productos cargados correctamente');
     } catch (error) {

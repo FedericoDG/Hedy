@@ -25,6 +25,6 @@ import { ProductosService } from './services/produtos.service';
     FabricantesSeederService,
     CategoriasSeederService,
   ],
-  exports: [ProductosService],
+  exports: [ProductosService, TypeOrmModule],
 })
 export class ProductosModule {}
