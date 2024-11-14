@@ -32,7 +32,7 @@ export class Categoria {
 
   @ManyToMany(() => Producto, (producto) => producto.categorias)
   @JoinTable({
-    name: 'producto_categorias',
+    name: 'productos_categorias',
     joinColumn: {
       name: 'categoria_id',
     },

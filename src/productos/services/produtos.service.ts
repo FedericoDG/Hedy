@@ -1,4 +1,4 @@
-import { In, Repository } from 'typeorm';
+import { Between, FindConditions, In, Repository } from 'typeorm';
 
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ActualizarProductoDto } from '../../productos/dtos/producto-actualizar.dto';
 import { CrearProductoDto } from '../../productos/dtos/producto-crear.dto';
 import { Producto } from '../../productos/entities/producto.entity';
+import { ProductoFiltrosDto } from '../dtos/producto-filtros.dto';
 import { Categoria } from '../entities/categoria.entity';
 import { Fabricante } from '../entities/fabricante.entity';
 
@@ -20,7 +21,19 @@ export class ProductosService {
     private readonly categoriaRepository: Repository<Categoria>,
   ) {}
 
-  async findAll() {
+  async findAll(params: ProductoFiltrosDto) {
+    if (params) {
+      const where: FindConditions<Producto> = {};
+      const { limit, offset, precioMinimo, precioMaximo } = params;
+
+      if (precioMinimo && precioMaximo) where.precio = Between(precioMinimo, precioMaximo);
+
+      return await this.productRepository.find({
+        relations: ['fabricante', 'categorias'],
+        take: limit,
+        skip: offset,
+      });
+    }
     return await this.productRepository.find({ relations: ['fabricante', 'categorias'] });
   }
 

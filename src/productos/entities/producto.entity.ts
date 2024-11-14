@@ -2,6 +2,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
+  JoinColumn,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -22,6 +24,7 @@ export class Producto {
   @Column({ type: 'text' })
   descripcion: string;
 
+  @Index()
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0.0 })
   precio: number;
 
@@ -47,6 +50,7 @@ export class Producto {
   updatedAt: Date;
 
   @ManyToOne(() => Fabricante, (fabricante) => fabricante.productos)
+  @JoinColumn({ name: 'fabricante_id' })
   fabricante: Fabricante;
 
   @ManyToMany(() => Categoria, (categoria) => categoria.productos)

@@ -1,3 +1,4 @@
+import { Expose } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -18,8 +19,8 @@ export class Pedido {
   @Column({ type: 'date', default: () => 'CURRENT_DATE' })
   date: Date;
 
-  @Column({ type: 'decimal', default: 0 })
-  total: number;
+  /* @Column({ type: 'decimal', default: 0 })
+  total: number; */
 
   @CreateDateColumn({
     type: 'timestamptz',
@@ -38,4 +39,28 @@ export class Pedido {
 
   @OneToMany(() => DetallePedido, (detalle) => detalle.pedido)
   detalles: DetallePedido[];
+
+  @Expose()
+  get totalPedido() {
+    if (this.detalles) {
+      return this.detalles
+        .filter((detalle) => !!detalle)
+        .reduce((total, detalle) => total + detalle.precio * detalle.cantidad, 0);
+    }
+    return 0;
+  }
+
+  @Expose()
+  get productos() {
+    console.log(this);
+    if (this.detalles) {
+      return this.detalles
+        .filter((detalle) => !!detalle)
+        .map((detalle) => ({
+          ...detalle.producto,
+          cantidad: detalle.cantidad,
+        }));
+    }
+    return [];
+  }
 }

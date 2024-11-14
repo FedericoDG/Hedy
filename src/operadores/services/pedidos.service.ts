@@ -16,7 +16,7 @@ export class PedidosService {
   ) {}
 
   async findAll() {
-    return this.pedidoRepository.find();
+    return this.pedidoRepository.find({});
   }
   async findOne(id: number) {
     const order = await this.pedidoRepository.findOne({

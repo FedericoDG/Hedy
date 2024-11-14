@@ -68,24 +68,16 @@ export class PedidosSeederService {
             return null;
           }
 
-          // Calcular el total de este pedido antes de guardarlo
-          const total = pedidoData.detalles.reduce((sum, detalle) => {
-            const producto = productos.find((p) => p.id === detalle.productoId);
-            if (producto) {
-              return sum + detalle.precio * detalle.cantidad;
-            }
-            return sum;
-          }, 0);
-
-          // Crea el pedido sin detalles por ahora, con el total calculado
+          // Crea el pedido sin detalles por ahora
           const pedido = this.pedidoRepository.create({
             comprador,
             date: pedidoData.date,
-            total, // Asignar el total calculado
           });
-          await this.pedidoRepository.save(pedido); // Guardar pedido primero para obtener ID
 
-          // Crear detalles del pedido con referencia al pedido creado
+          // Guardar el pedido primero para obtener su ID
+          const savedPedido = await this.pedidoRepository.save(pedido);
+
+          // Crear detalles del pedido y asociarlos al pedido creado
           const detalles = await Promise.all(
             pedidoData.detalles.map((detalle) => {
               const producto = productos.find((p) => p.id === detalle.productoId);
@@ -98,14 +90,14 @@ export class PedidosSeederService {
                 producto,
                 cantidad: detalle.cantidad,
                 precio: detalle.precio,
-                pedido, // Asignar el pedido
+                pedido: savedPedido, // Asegúrate de asociar el pedido
               });
               return this.detallePedidoRepository.save(detallePedido);
             }),
           );
 
-          pedido.detalles = detalles.filter((d) => d !== null); // Asignar detalles al pedido
-          return pedido;
+          savedPedido.detalles = detalles.filter((d) => d !== null); // Asignar detalles al pedido
+          return savedPedido;
         }),
       );
 
