@@ -1,31 +1,18 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { ConfigType } from '@nestjs/config';
+import { Db } from 'mongodb';
 
-import config from './config';
+import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  constructor(
-    // @Inject('APIKEY') private readonlyapiKey: string,
-    @Inject('TAREA_ASYNC') private readonly tarea: any,
-    // private readonly configService: ConfigService,
-    @Inject(config.KEY)
-    private readonly configService: ConfigType<typeof config>,
-  ) {}
+  constructor(@Inject('MONGO') private readonly mongo: Db) {}
 
-  getApiKey(): string {
-    // return `La llave de la aplicación es ${this.apiKey}`;
-    // const apiKey = this.configService.get('APIKEY');
-    // const dbPassword = this.configService.get('PG_PASSWORD');
-    // return `La api-key de la aplicación es ${apiKey} y la contraseña es ${dbPassword}... Pero no le cuentes a nadie!.`;
+  async getTasks() {
+    const tasksCollection = this.mongo.collection('tasks');
+    const tasks = await tasksCollection.find().toArray();
 
-    const apiKey = this.configService.apiKey;
-    const dbPassword = this.configService.postgres.password;
-    return `La api-key de la aplicación es ${apiKey} y la contraseña es ${dbPassword}... Pero no le cuentes a nadie!.`;
-  }
-
-  getUseFactory(): string {
-    console.log(this.tarea); // -> post de  https://jsonplaceholder.typicode.com
-    return 'Realizando una tarea asincrona de ejemplo';
+    return tasks.map((task) => ({
+      ...task,
+      _id: task._id.toString(),
+    }));
   }
 }

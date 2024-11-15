@@ -1,58 +1,27 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  JoinColumn,
-  ManyToMany,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-
-import { Categoria } from './categoria.entity';
-import { Fabricante } from './fabricante.entity';
-
-@Entity()
 export class Producto {
-  @PrimaryGeneratedColumn()
-  id: number;
+  _id: number;
 
-  @Column({ type: 'varchar', length: 255, unique: true })
   nombre: string;
 
-  @Column({ type: 'text' })
   descripcion: string;
 
-  @Index()
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0.0 })
   precio: number;
 
-  @Column({ type: 'int', default: 0 })
   stock: number;
 
-  @Column({ type: 'varchar', length: 255 })
   origen: string;
 
-  @Column({ type: 'varchar', length: 255 })
   imagen: string;
 
-  @CreateDateColumn({
+  /* @CreateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  createdAt: Date;
+  createdAt: Date; */
 
-  @UpdateDateColumn({
+  /* @UpdateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  updatedAt: Date;
-
-  @ManyToOne(() => Fabricante, (fabricante) => fabricante.productos)
-  @JoinColumn({ name: 'fabricante_id' })
-  fabricante: Fabricante;
-
-  @ManyToMany(() => Categoria, (categoria) => categoria.productos)
-  categorias: Categoria[];
+  updatedAt: Date; */
 }

@@ -1,26 +1,14 @@
 version: '3.3'
 
 services:
-  postgres:
-    image: postgres:13
-    container_name: calilegua-postgres
-    restart: always
+  mongodb:
+    image: mongo:5.0
+    container_name: calilegua-mongo
     environment:
-      POSTGRES_DB: ${PG_DATABASE}
-      POSTGRES_USER: ${PG_USER}
-      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     ports:
-      - '${PG_PORT}:5432'
+      - '${MONGO_INITDB_PORT}:27017'
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
-
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: calilegua-pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: root@admin.com
-      PGADMIN_DEFAULT_PASSWORD: root
-    ports:
-      - '5050:80'
-    volumes:
-      - ./pgadmin_data:/var/lib/pgadmin
+      - ./mongo_data:/data/db

@@ -1,7 +1,7 @@
 import * as Joi from 'joi';
-import { lastValueFrom } from 'rxjs/internal/lastValueFrom';
+import { MongoClient } from 'mongodb';
 
-import { HttpModule, HttpService } from '@nestjs/axios';
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
@@ -13,6 +13,20 @@ import { environments } from './enviroments';
 import { OperadoresModule } from './operadores/operadores.module';
 import { ProductosModule } from './productos/productos.module';
 
+/* const uri = 'mongodb://mongo:123456@localhost:27017/?authMechanism=DEFAULT';
+
+const client = new MongoClient(uri);
+async function run() {
+  await client.connect();
+  const database = client.db('admin');
+  const taskCollection = database.collection('tasks');
+  const task = await taskCollection.find().toArray();
+  console.log(task);
+  await client.close();
+}
+
+run(); */
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -20,11 +34,12 @@ import { ProductosModule } from './productos/productos.module';
       load: [config], // archivo de tipado
       validationSchema: Joi.object({
         APIKEY: Joi.string().required(),
-        PG_HOST: Joi.string().required(),
-        PG_PORT: Joi.number().default(5432),
-        PG_USER: Joi.string().required(),
-        PG_PASSWORD: Joi.string().required(),
-        PG_DATABASE: Joi.string().required(),
+        MONGO_HOST: Joi.string().required(),
+        MONGO_INITDB_PORT: Joi.number().default(27017),
+        MONGO_INITDB_ROOT_USERNAME: Joi.string().required(),
+        MONGO_INITDB_ROOT_PASSWORD: Joi.string().required(),
+        MONGO_INITDB_DATABASE: Joi.string().required(),
+        MONGO_CONNECTION: Joi.string().required(),
       }), // validaciones con Joi
       isGlobal: true,
     }),
@@ -37,13 +52,14 @@ import { ProductosModule } from './productos/productos.module';
   providers: [
     AppService,
     {
-      provide: 'TAREA_ASYNC',
-      useFactory: async (http: HttpService) => {
-        const req = http.get('https://jsonplaceholder.typicode.com/posts');
-        const tarea = await lastValueFrom(req);
-        return tarea.data;
+      provide: 'MONGO',
+      useFactory: async () => {
+        const uri = 'mongodb://mongo:123456@localhost:27017/?authMechanism=DEFAULT';
+        const client = new MongoClient(uri);
+        await client.connect();
+        const database = client.db('admin');
+        return database;
       },
-      inject: [HttpService],
     },
   ],
 })

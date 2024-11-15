@@ -53,7 +53,7 @@ export class ProductosController {
     @Param('productId') productId: string,
     @Param('categoryId', ParseIntPipe) categoryId: string,
   ) {
-    return this.productService.addCategoryByProduct(parseInt(productId), parseInt(categoryId));
+    return 'producto add category';
   }
 
   @Delete('/:productId/categorias/:categoryId')
@@ -62,7 +62,7 @@ export class ProductosController {
     @Param('productId') productId: string,
     @Param('categoryId', ParseIntPipe) categoryId: string,
   ) {
-    return this.productService.removeCategoryByProduct(parseInt(productId), parseInt(categoryId));
+    return 'producto remove category';
   }
 
   @Delete(':id')

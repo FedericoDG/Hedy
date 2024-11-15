@@ -7,12 +7,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getApiKey(): string {
-    return this.appService.getApiKey();
-  }
-
-  @Get('usefactory')
-  getUseFactory(): string {
-    return this.appService.getUseFactory();
+  findAll() {
+    return this.appService.getTasks();
   }
 }
