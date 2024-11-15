@@ -1,4 +1,4 @@
-import { Expose } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -37,6 +37,7 @@ export class Pedido {
   @ManyToOne(() => Comprador, (comprador) => comprador.pedidos)
   comprador: Comprador;
 
+  @Exclude()
   @OneToMany(() => DetallePedido, (detalle) => detalle.pedido)
   detalles: DetallePedido[];
 
@@ -52,7 +53,6 @@ export class Pedido {
 
   @Expose()
   get productos() {
-    console.log(this);
     if (this.detalles) {
       return this.detalles
         .filter((detalle) => !!detalle)
