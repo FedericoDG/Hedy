@@ -1,7 +1,6 @@
 import * as Joi from 'joi';
 import { MongoClient } from 'mongodb';
 
-import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
@@ -12,20 +11,6 @@ import { DatabaseModule } from './database/database.module';
 import { environments } from './enviroments';
 import { OperadoresModule } from './operadores/operadores.module';
 import { ProductosModule } from './productos/productos.module';
-
-/* const uri = 'mongodb://mongo:123456@localhost:27017/?authMechanism=DEFAULT';
-
-const client = new MongoClient(uri);
-async function run() {
-  await client.connect();
-  const database = client.db('admin');
-  const taskCollection = database.collection('tasks');
-  const task = await taskCollection.find().toArray();
-  console.log(task);
-  await client.close();
-}
-
-run(); */
 
 @Module({
   imports: [
@@ -43,7 +28,6 @@ run(); */
       }), // validaciones con Joi
       isGlobal: true,
     }),
-    HttpModule,
     OperadoresModule,
     ProductosModule,
     DatabaseModule,
