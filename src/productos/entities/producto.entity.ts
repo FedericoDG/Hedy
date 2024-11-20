@@ -10,10 +10,10 @@ export class Producto extends Document {
   @Prop()
   descripcion: string;
 
-  @Prop()
+  @Prop({ type: Number, index: true })
   precio: number;
 
-  @Prop()
+  @Prop({ type: Number })
   stock: number;
 
   @Prop()
