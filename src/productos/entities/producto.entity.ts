@@ -1,27 +1,26 @@
-export class Producto {
-  _id: number;
+import { Document } from 'mongoose';
 
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+
+@Schema()
+export class Producto extends Document {
+  @Prop({ required: true })
   nombre: string;
 
+  @Prop()
   descripcion: string;
 
+  @Prop()
   precio: number;
 
+  @Prop()
   stock: number;
 
+  @Prop()
   origen: string;
 
+  @Prop()
   imagen: string;
-
-  /* @CreateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  createdAt: Date; */
-
-  /* @UpdateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  updatedAt: Date; */
 }
+
+export const ProductoSchema = SchemaFactory.createForClass(Producto);

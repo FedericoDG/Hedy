@@ -1,12 +1,9 @@
-import { Db } from 'mongodb';
-
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  constructor(@Inject('MONGO') private readonly mongo: Db) {}
-
-  async getTasks() {
+  // constructor(@Inject('MONGO') private readonly mongo: Db) {}
+  /* async getTasks() {
     const tasksCollection = this.mongo.collection('tasks');
     const tasks = await tasksCollection.find().toArray();
 
@@ -14,5 +11,5 @@ export class AppService {
       ...task,
       _id: task._id.toString(),
     }));
-  }
+  } */
 }
