@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+import { MongoIdPipe } from '../../common/mongo-id.pipe';
 import { ActualizarProductoDto } from '../../productos/dtos/producto-actualizar.dto';
 import { CrearProductoDto } from '../../productos/dtos/producto-crear.dto';
 import { ProductosService } from '../../productos/services/produtos.service';
@@ -29,8 +30,8 @@ export class ProductosController {
 
   @Get('/:id')
   @ApiOperation({ summary: 'Lista un solo producto, por id' })
-  findOne(@Param('id') id: string) {
-    return this.productService.findOne(parseInt(id));
+  findOne(@Param('id', MongoIdPipe) id: string) {
+    return this.productService.findOne(id);
   }
 
   @Post()
@@ -41,12 +42,23 @@ export class ProductosController {
 
   @Patch('/:id')
   @ApiOperation({ summary: 'Actualiza un producto' })
-  update(@Param('id') id: string, @Body() body: ActualizarProductoDto) {
-    const upodatedProduct = this.productService.update(parseInt(id), body);
+  update(@Param('id', MongoIdPipe) id: string, @Body() body: ActualizarProductoDto) {
+    const upodatedProduct = this.productService.update(id, body);
 
     return upodatedProduct;
   }
 
+  @Delete(':id')
+  @ApiOperation({ summary: 'Elimina un producto' })
+  delete(@Param('id', MongoIdPipe) id: string): Record<string, any> {
+    this.productService.delete(id);
+
+    return {
+      message: `Producto con id ${id} eliminado`,
+    };
+  }
+
+  // TODO: Cuanto estén establecidas las relaciones
   @Patch('/:productId/categorias/:categoryId')
   @ApiOperation({ summary: 'Añade una categoría a un producto' })
   addCategoryToProduct(
@@ -56,6 +68,7 @@ export class ProductosController {
     return 'producto add category';
   }
 
+  // TODO: Cuanto estén establecidas las relaciones
   @Delete('/:productId/categorias/:categoryId')
   @ApiOperation({ summary: 'Elimina una categoría de un producto' })
   removeCategoryFromProduct(
@@ -63,15 +76,5 @@ export class ProductosController {
     @Param('categoryId', ParseIntPipe) categoryId: string,
   ) {
     return 'producto remove category';
-  }
-
-  @Delete(':id')
-  @ApiOperation({ summary: 'Elimina un producto' })
-  delete(@Param('id') id: string): Record<string, any> {
-    this.productService.delete(parseInt(id));
-
-    return {
-      message: `Producto con id ${id} eliminado`,
-    };
   }
 }

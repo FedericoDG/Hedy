@@ -1,5 +1,4 @@
 import * as Joi from 'joi';
-import { MongoClient } from 'mongodb';
 
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -33,18 +32,6 @@ import { ProductosModule } from './productos/productos.module';
     DatabaseModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: 'MONGO',
-      useFactory: async () => {
-        const uri = 'mongodb://mongo:123456@localhost:27017/?authMechanism=DEFAULT';
-        const client = new MongoClient(uri);
-        await client.connect();
-        const database = client.db('admin');
-        return database;
-      },
-    },
-  ],
+  providers: [AppService],
 })
 export class AppModule {}
