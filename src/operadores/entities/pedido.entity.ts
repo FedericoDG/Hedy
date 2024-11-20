@@ -1,20 +1,11 @@
-export class Pedido {
-  _id: number;
+import { Document } from 'mongoose';
 
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+
+@Schema({ collection: 'pedidos' })
+export class Pedido extends Document {
+  @Prop()
   date: Date;
-
-  /* @Column({ type: 'decimal', default: 0 })
-  total: number; */
-
-  /*   @CreateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  createdAt: Date;
-
-  @CreateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  updatedAt: Date; */
 }
+
+export const PedidoSchema = SchemaFactory.createForClass(Pedido);

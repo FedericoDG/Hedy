@@ -1,17 +1,10 @@
-export class Categoria {
-  _id: number;
+import { Document } from 'mongoose';
 
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+
+Schema({ collection: 'categorias' });
+export class Categoria extends Document {
+  @Prop()
   nombre: string;
-
-  /* @CreateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  createdAt: Date; */
-
-  /* @UpdateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  updatedAt: Date; */
 }
+export const CategoriaSchema = SchemaFactory.createForClass(Categoria);

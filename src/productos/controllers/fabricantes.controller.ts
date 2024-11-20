@@ -19,7 +19,7 @@ export class FabricantesController {
   @Get('/:id')
   @ApiOperation({ summary: 'Lista un solo fabicante, por id' })
   findOne(@Param('id') id: string) {
-    return this.manufacturerService.findOne(parseInt(id));
+    return this.manufacturerService.findOne(id);
   }
 
   @Post()
@@ -31,14 +31,14 @@ export class FabricantesController {
   @Patch('/:id')
   @ApiOperation({ summary: 'Actualiza un fabricante' })
   update(@Param('id') id: string, @Body() body: ActualizarFabricanteDto) {
-    const upodatedManufacturer = this.manufacturerService.update(parseInt(id), body);
+    const upodatedManufacturer = this.manufacturerService.update(id, body);
     return upodatedManufacturer;
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Elimina un fabricante' })
   delete(@Param('id') id: string): Record<string, any> {
-    this.manufacturerService.delete(parseInt(id));
+    this.manufacturerService.delete(id);
 
     return {
       message: `Fabricante con id ${id} eliminado`,

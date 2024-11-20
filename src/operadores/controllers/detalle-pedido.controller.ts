@@ -14,7 +14,7 @@ export class DetallePedidoController {
 
   @Delete(':id')
   delete(@Param('id') id: string): Record<string, any> {
-    this.detallesPedidoService.delete(parseInt(id));
+    this.detallesPedidoService.delete(id);
 
     return {
       message: `Detalle de pedido con id ${id} eliminado`,

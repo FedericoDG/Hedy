@@ -18,7 +18,7 @@ export class OperadoresController {
   @Get('/:id')
   @ApiOperation({ summary: 'Lista un solo operador, por id' })
   findOne(@Param('id') id: string) {
-    return this.operatorService.findOne(parseInt(id));
+    return this.operatorService.findOne(id);
   }
 
   @Post()
@@ -30,7 +30,7 @@ export class OperadoresController {
   @Patch('/:id')
   @ApiOperation({ summary: 'Actualiza un operador' })
   update(@Param('id') id: string, @Body() body: ActualizarOperadorDto) {
-    const upodatedOperator = this.operatorService.update(parseInt(id), body);
+    const upodatedOperator = this.operatorService.update(id, body);
 
     return upodatedOperator;
   }
@@ -38,7 +38,7 @@ export class OperadoresController {
   @Delete(':id')
   @ApiOperation({ summary: 'Elimina un operador' })
   delete(@Param('id') id: string): Record<string, any> {
-    this.operatorService.delete(parseInt(id));
+    this.operatorService.delete(id);
 
     return {
       message: `Operador con id ${id} eliminado`,
