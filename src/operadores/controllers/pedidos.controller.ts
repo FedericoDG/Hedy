@@ -14,7 +14,7 @@ export class PedidosController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  findOne(@Param('id', ParseIntPipe) id: string) {
     return this.pedidoService.findOne(id);
   }
 
@@ -24,12 +24,12 @@ export class PedidosController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() order: ActualizarPedidoDto) {
+  update(@Param('id', ParseIntPipe) id: string, @Body() order: ActualizarPedidoDto) {
     return this.pedidoService.update(id, order);
   }
 
   @Delete(':id')
-  delete(@Param('id', ParseIntPipe) id: number) {
+  delete(@Param('id', ParseIntPipe) id: string) {
     this.pedidoService.delete(id);
 
     return {

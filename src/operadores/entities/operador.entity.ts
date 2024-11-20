@@ -1,21 +1,17 @@
-export class Operador {
-  _id: number;
+import { Document } from 'mongoose';
 
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+
+@Schema({ collection: 'operadores' })
+export class Operador extends Document {
+  @Prop()
   email: string;
 
+  @Prop()
   password: string;
 
+  @Prop()
   role: string;
-
-  /*   @CreateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  createdAt: Date;
-
-  @UpdateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  updatedAt: Date; */
 }
+
+export const OperadorSchema = SchemaFactory.createForClass(Operador);

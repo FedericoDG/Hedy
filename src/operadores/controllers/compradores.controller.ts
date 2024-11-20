@@ -19,7 +19,7 @@ export class CompradoresController {
   @Get('/:id')
   @ApiOperation({ summary: 'Lista un solo comprador, por id' })
   findOne(@Param('id') id: string) {
-    return this.buyerService.findOne(parseInt(id));
+    return this.buyerService.findOne(id);
   }
 
   @Post()
@@ -31,7 +31,7 @@ export class CompradoresController {
   @Patch('/:id')
   @ApiOperation({ summary: 'Actualiza un comprador' })
   update(@Param('id') id: string, @Body() body: ActualizarCompradorDto) {
-    const upodatedProduct = this.buyerService.update(parseInt(id), body);
+    const upodatedProduct = this.buyerService.update(id, body);
 
     return upodatedProduct;
   }
@@ -39,7 +39,7 @@ export class CompradoresController {
   @Delete(':id')
   @ApiOperation({ summary: 'Elimina un comprador' })
   delete(@Param('id') id: string): Record<string, any> {
-    this.buyerService.delete(parseInt(id));
+    this.buyerService.delete(id);
 
     return {
       message: `Comprador con id ${id} eliminado`,

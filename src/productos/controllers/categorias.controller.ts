@@ -19,7 +19,7 @@ export class CategoriasController {
   @Get('/:id')
   @ApiOperation({ summary: 'Lista un sola categoría, por id' })
   findOne(@Param('id') id: string) {
-    return this.categoryService.findOne(parseInt(id));
+    return this.categoryService.findOne(id);
   }
 
   @Post()
@@ -31,7 +31,7 @@ export class CategoriasController {
   @Patch('/:id')
   @ApiOperation({ summary: 'Actualiza una categoría' })
   update(@Param('id') id: string, @Body() body: ActualizarCategoriaDto) {
-    const upodatedCategory = this.categoryService.update(parseInt(id), body);
+    const upodatedCategory = this.categoryService.update(id, body);
 
     return upodatedCategory;
   }
@@ -39,7 +39,7 @@ export class CategoriasController {
   @Delete(':id')
   @ApiOperation({ summary: 'Elimina una categoría' })
   delete(@Param('id') id: string): Record<string, any> {
-    this.categoryService.delete(parseInt(id));
+    this.categoryService.delete(id);
 
     return {
       message: `Categoría con id ${id} eliminada`,

@@ -1,21 +1,19 @@
-export class Comprador {
-  _id: number;
+import { Document } from 'mongoose';
 
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+
+@Schema({
+  collection: 'compradores',
+})
+export class Comprador extends Document {
+  @Prop()
   nombre: string;
 
+  @Prop()
   apellido: string;
 
+  @Prop()
   telefono: string;
-
-  /* @CreateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  createdAt: Date; */
-
-  /* @UpdateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  updatedAt: Date; */
 }
+
+export const CompradorSchema = SchemaFactory.createForClass(Comprador);
