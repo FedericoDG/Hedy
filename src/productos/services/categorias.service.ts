@@ -13,10 +13,8 @@ export class CategoriasService {
 
   async findAll() {
     const categories = await this.categoryRepository.find().exec();
-    return categories.map((category) => ({
-      ...category.toObject(),
-      _id: category._id.toString(),
-    }));
+
+    return categories;
   }
 
   async findOne(id: string) {
@@ -26,20 +24,14 @@ export class CategoriasService {
       throw new NotFoundException(`Categoria con id: ${id} no encontrada`);
     }
 
-    return {
-      ...categoty.toObject(),
-      _id: categoty._id.toString(),
-    };
+    return categoty;
   }
 
   async create(category: CrearCategoriaDto) {
     const newCategory = new this.categoryRepository(category);
     const savedCategory = await newCategory.save();
 
-    return {
-      ...savedCategory.toObject(),
-      _id: savedCategory._id.toString(),
-    };
+    return savedCategory;
   }
 
   async update(id: string, updatedCategory: ActualizarCategoriaDto) {
@@ -51,10 +43,7 @@ export class CategoriasService {
       throw new NotFoundException(`Categoria con id: ${id} no encontrada`);
     }
 
-    return {
-      ...category.toObject(),
-      _id: category._id.toString(),
-    };
+    return category;
   }
 
   async delete(id: string) {

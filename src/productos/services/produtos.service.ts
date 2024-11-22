@@ -13,21 +13,27 @@ export class ProductosService {
   constructor(@InjectModel(Producto.name) private readonly productRepository: Model<Producto>) {}
 
   async findAll(params?: ProductoFiltrosDto) {
-    let products: Producto[];
+    let products: any[];
     if (params) {
       const filters: FilterQuery<Producto> = {};
       const { limit, offset, precioMinimo, precioMaximo } = params;
       if (precioMinimo && precioMaximo) filters.precio = { $gte: precioMinimo, $lte: precioMaximo };
 
-      products = await this.productRepository.find(filters).skip(offset).limit(limit).exec();
+      products = await this.productRepository
+        .find(filters)
+        .populate('fabricante')
+        .skip(offset)
+        .limit(limit)
+        .exec();
     } else {
-      products = await this.productRepository.find().exec();
+      products = await this.productRepository.find().populate('fabricante').exec();
     }
 
-    return products.map((product) => ({
+    return products;
+
+    /*  return products.map((product) => ({
       ...product.toObject(),
-      _id: product._id.toString(),
-    }));
+    })); */
   }
 
   async findOne(id: string) {
@@ -37,20 +43,15 @@ export class ProductosService {
       throw new NotFoundException(`Producto con id: ${id} no encontrado`);
     }
 
-    return {
-      ...product.toObject(),
-      _id: product._id.toString(),
-    };
+    return product;
   }
 
   async create(product: CrearProductoDto) {
+    console.log(product);
     const newProduct = new this.productRepository(product);
     const savedProduct = await newProduct.save();
 
-    return {
-      ...savedProduct.toObject(),
-      _id: savedProduct._id.toString(),
-    };
+    return savedProduct;
   }
 
   async update(id: string, updatedProduct: ActualizarProductoDto) {
@@ -62,16 +63,15 @@ export class ProductosService {
       throw new NotFoundException(`Producto con id: ${id} no encontrado`);
     }
 
-    return {
-      ...product.toObject(),
-      _id: product._id.toString(),
-    };
+    return product;
   }
 
   async delete(id: string) {
     return await this.productRepository.findByIdAndDelete(id);
   }
 }
+
+// TODO: Cuando estén las relaciones con Categorias
 /*   async removeCategoryByProduct(productId: number, categoryId: number) {
     const product = await this.productRepository.findOne({
       where: { id: productId },

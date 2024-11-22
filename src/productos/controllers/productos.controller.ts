@@ -1,14 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  ParseIntPipe,
-  Patch,
-  Post,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { MongoIdPipe } from '../../common/mongo-id.pipe';
@@ -63,7 +53,7 @@ export class ProductosController {
   @ApiOperation({ summary: 'Añade una categoría a un producto' })
   addCategoryToProduct(
     @Param('productId') productId: string,
-    @Param('categoryId', ParseIntPipe) categoryId: string,
+    @Param('categoryId', MongoIdPipe) categoryId: string,
   ) {
     return 'producto add category';
   }
@@ -73,7 +63,7 @@ export class ProductosController {
   @ApiOperation({ summary: 'Elimina una categoría de un producto' })
   removeCategoryFromProduct(
     @Param('productId') productId: string,
-    @Param('categoryId', ParseIntPipe) categoryId: string,
+    @Param('categoryId', MongoIdPipe) categoryId: string,
   ) {
     return 'producto remove category';
   }

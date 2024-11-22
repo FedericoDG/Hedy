@@ -16,10 +16,7 @@ export class FabricantesService {
   async findAll() {
     const manufacters = await this.manufacterRepository.find().exec();
 
-    return manufacters.map((manufacturer) => ({
-      ...manufacturer.toObject(),
-      _id: manufacturer._id.toString(),
-    }));
+    return manufacters;
   }
 
   async findOne(id: string) {
@@ -29,20 +26,14 @@ export class FabricantesService {
       throw new NotFoundException(`Fabricante con id: ${id} no encontrado`);
     }
 
-    return {
-      ...manufacturer.toObject(),
-      _id: manufacturer._id.toString(),
-    };
+    return manufacturer;
   }
 
   async create(manufacturer: CrearFabricanteDto) {
     const newManufacturer = new this.manufacterRepository(manufacturer);
     const savedManufacturer = await newManufacturer.save();
 
-    return {
-      ...savedManufacturer.toObject(),
-      _id: savedManufacturer._id.toString(),
-    };
+    return savedManufacturer;
   }
 
   async update(id: string, updatedManufacturer: ActualizarFabricanteDto) {
@@ -54,10 +45,7 @@ export class FabricantesService {
       throw new NotFoundException(`Fabricante con id: ${id} no encontrado`);
     }
 
-    return {
-      ...manufacturer.toObject(),
-      _id: manufacturer._id.toString(),
-    };
+    return manufacturer;
   }
 
   async delete(id: string) {

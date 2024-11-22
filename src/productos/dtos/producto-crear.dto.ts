@@ -1,6 +1,16 @@
-import { IsArray, IsNotEmpty, IsNumber, IsPositive, IsString, IsUrl } from 'class-validator';
+import {
+  IsMongoId,
+  IsNotEmpty,
+  IsNumber,
+  IsPositive,
+  IsString,
+  IsUrl,
+  ValidateNested,
+} from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
+
+import { CrearCategoriaDto } from './categoria-crear.dto';
 
 export class CrearProductoDto {
   @ApiProperty()
@@ -34,12 +44,11 @@ export class CrearProductoDto {
   imagen: string;
 
   @ApiProperty()
-  @IsNotEmpty()
-  @IsPositive()
-  fabricanteId: number;
+  @IsMongoId()
+  fabricante: string;
 
   @ApiProperty()
-  @IsArray()
+  @ValidateNested() // -> Validar que el DTO de la categoria sea válido
   @IsNotEmpty()
-  categoriasIds: number[];
+  categoria: CrearCategoriaDto;
 }
