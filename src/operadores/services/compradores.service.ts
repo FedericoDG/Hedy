@@ -14,10 +14,7 @@ export class CompradoresService {
   async findAll() {
     const buyers = await this.buyerRepository.find().exec();
 
-    return buyers.map((buyer) => ({
-      ...buyer.toObject(),
-      _id: buyer._id.toString(),
-    }));
+    return buyers;
   }
 
   async findOne(id: string) {
@@ -27,20 +24,14 @@ export class CompradoresService {
       throw new NotFoundException(`Comprador con id: ${id} no encontrado`);
     }
 
-    return {
-      ...buyer.toObject(),
-      _id: buyer._id.toString(),
-    };
+    return buyer;
   }
 
   async create(buyer: CrearCompradorDto) {
     const newBuyer = new this.buyerRepository(buyer);
     const savedBuyer = await newBuyer.save();
 
-    return {
-      ...savedBuyer.toObject(),
-      _id: savedBuyer._id.toString(),
-    };
+    return savedBuyer;
   }
 
   async update(id: string, updatedBuyer: ActualizarCompradorDto) {
@@ -52,10 +43,7 @@ export class CompradoresService {
       throw new NotFoundException(`Comprador con id: ${id} no encontrado`);
     }
 
-    return {
-      ...buyer.toObject(),
-      _id: buyer._id.toString(),
-    };
+    return buyer;
   }
 
   async delete(id: string) {

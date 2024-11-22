@@ -14,10 +14,7 @@ export class OperadoresService {
   async findAll() {
     const operators = await this.operatorRepository.find().exec();
 
-    return operators.map((operator) => ({
-      ...operator.toObject(),
-      _id: operator._id.toString(),
-    }));
+    return operators;
   }
 
   async findOne(id: string) {
@@ -27,20 +24,14 @@ export class OperadoresService {
       throw new NotFoundException(`Operador con id: ${id} no encontrado`);
     }
 
-    return {
-      ...operator.toObject(),
-      _id: operator._id.toString(),
-    };
+    return operator;
   }
 
   async create(operator: CrearOperadorDto) {
     const newOperator = new this.operatorRepository(operator);
     const savedOperator = await newOperator.save();
 
-    return {
-      ...savedOperator.toObject(),
-      _id: savedOperator._id.toString(),
-    };
+    return savedOperator;
   }
 
   async update(id: string, updatedOperator: ActualizarOperadorDto) {
@@ -52,10 +43,7 @@ export class OperadoresService {
       throw new NotFoundException(`Operador con id: ${id} no encontrado`);
     }
 
-    return {
-      ...operator.toObject(),
-      _id: operator._id.toString(),
-    };
+    return operator;
   }
 
   async delete(id: string) {

@@ -1,10 +1,20 @@
-import { IsNumber, IsPositive } from 'class-validator';
+import { IsArray, IsDate, IsMongoId, IsNotEmpty } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CrearPedidoDto {
   @ApiProperty()
-  @IsNumber()
-  @IsPositive()
-  compradorId: number;
+  @IsDate()
+  @IsNotEmpty()
+  fecha: Date;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsMongoId()
+  comprador: string;
+
+  @ApiProperty()
+  @IsArray()
+  @IsNotEmpty()
+  productos: string[];
 }

@@ -3,6 +3,7 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
+import { MongooseTransformInterceptor } from './common/mongoose-transform.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,6 +18,7 @@ async function bootstrap() {
     }),
   );
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  app.useGlobalInterceptors(new MongooseTransformInterceptor());
   const config = new DocumentBuilder()
     .setTitle('Hedy - Ecommerce')
     .setDescription('Ecommerce API')

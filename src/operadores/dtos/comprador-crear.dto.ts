@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -17,4 +17,8 @@ export class CrearCompradorDto {
   @IsString()
   @IsNotEmpty()
   telefono: string;
+
+  @IsArray()
+  @IsNotEmpty()
+  direcciones: any;
 }

@@ -12,35 +12,40 @@ export class PedidosService {
   constructor(@InjectModel(Pedido.name) private readonly orderRepository: Model<Pedido>) {}
 
   async findAll() {
-    const orders = await this.orderRepository.find().exec();
+    const orders = await this.orderRepository
+      .find()
+      .populate('comprador')
+      .populate({
+        path: 'productos',
+        model: 'Producto',
+      })
+      .exec();
 
-    return orders.map((order) => ({
-      ...order.toObject(),
-      _id: order._id.toString(),
-    }));
+    return orders;
   }
 
   async findOne(id: string) {
-    const order = await this.orderRepository.findById(id).exec();
+    const order = await this.orderRepository
+      .findById(id)
+      .populate('comprador')
+      .populate({
+        path: 'productos',
+        model: 'Producto',
+      })
+      .exec();
 
     if (!order) {
       throw new NotFoundException(`Pedido con id: ${id} no encontrado`);
     }
 
-    return {
-      ...order.toObject(),
-      _id: order._id.toString(),
-    };
+    return order;
   }
 
   async create(order: CrearPedidoDto) {
     const newOrder = new this.orderRepository(order);
     const savedOrder = await newOrder.save();
 
-    return {
-      ...savedOrder.toObject(),
-      _id: savedOrder._id.toString(),
-    };
+    return savedOrder;
   }
 
   async update(id: string, updatedOrder: ActualizarPedidoDto) {
@@ -52,13 +57,36 @@ export class PedidosService {
       throw new NotFoundException(`Pedido con id: ${id} no encontrado`);
     }
 
-    return {
-      ...order.toObject(),
-      _id: order._id.toString(),
-    };
+    return order;
   }
 
   async delete(id: string) {
     return await this.orderRepository.findByIdAndDelete(id);
+  }
+
+  async addProductToOrder(orderId: string, productIds: string[]) {
+    const order = await this.orderRepository.findById(orderId);
+
+    if (!order) {
+      throw new NotFoundException(`Pedido con id: ${orderId} no encontrado`);
+    }
+
+    productIds.forEach((productId) => {
+      order.productos.push(productId);
+    });
+
+    return await order.save();
+  }
+
+  async removeProductFromOrder(orderId: string, productId: string) {
+    const order = await this.orderRepository.findById(orderId);
+
+    if (!order) {
+      throw new NotFoundException(`Pedido con id: ${orderId} no encontrado`);
+    }
+
+    order.productos = order.productos.pull(productId);
+
+    return await order.save();
   }
 }

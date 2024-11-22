@@ -1,5 +1,7 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 
+import { MongoIdPipe } from '../../common/mongo-id.pipe';
+import { AgregarProductosAPedidoDto } from '../dtos/agregar-productos-a-pedidto.dto';
 import { ActualizarPedidoDto } from '../dtos/pedido-actualizar.dto';
 import { CrearPedidoDto } from '../dtos/pedido-crear.dto';
 import { PedidosService } from '../services/pedidos.service';
@@ -14,7 +16,7 @@ export class PedidosController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: string) {
+  findOne(@Param('id', MongoIdPipe) id: string) {
     return this.pedidoService.findOne(id);
   }
 
@@ -24,16 +26,32 @@ export class PedidosController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: string, @Body() order: ActualizarPedidoDto) {
+  update(@Param('id', MongoIdPipe) id: string, @Body() order: ActualizarPedidoDto) {
     return this.pedidoService.update(id, order);
   }
 
   @Delete(':id')
-  delete(@Param('id', ParseIntPipe) id: string) {
+  delete(@Param('id', MongoIdPipe) id: string) {
     this.pedidoService.delete(id);
 
     return {
       message: `Pedido  con id ${id} eliminado`,
     };
+  }
+
+  @Patch(':orderId/productos')
+  addProductsToOrder(
+    @Param('orderId', MongoIdPipe) orderId: string,
+    @Body() payload: AgregarProductosAPedidoDto,
+  ) {
+    return this.pedidoService.addProductToOrder(orderId, payload.productoIds);
+  }
+
+  @Delete(':orderId/producto/:productId')
+  removeProductFromOrder(
+    @Param('orderId', MongoIdPipe) orderId: string,
+    @Param('productId', MongoIdPipe) productId: string,
+  ) {
+    return this.pedidoService.removeProductFromOrder(orderId, productId);
   }
 }
