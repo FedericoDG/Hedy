@@ -44,19 +44,4 @@ export class OperadoresController {
       message: `Operador con id ${id} eliminado`,
     };
   }
-
-  /*  @Get()
-  @HttpCode(HttpStatus.ACCEPTED)
-  getAllOperators(): any {
-    return this.operadoresService.findAll();
-  }
-
-  @Get(':id/pedidos')
-  getOrders(@Param('id', ParseIntPipe) id: number) {
-    return this.operadoresService.getOrderByUser(id);
-  }
-  @Get('tareas')
-  getTasks() {
-    return this.operadoresService.getTasks();
-  } */
 }

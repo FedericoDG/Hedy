@@ -5,6 +5,7 @@ import { MongoIdPipe } from '../../common/mongo-id.pipe';
 import { ActualizarProductoDto } from '../../productos/dtos/producto-actualizar.dto';
 import { CrearProductoDto } from '../../productos/dtos/producto-crear.dto';
 import { ProductosService } from '../../productos/services/produtos.service';
+import { ActualizarCategoriaProductoDto } from '../dtos/producto-actualizar-categoria.dto';
 import { ProductoFiltrosDto } from '../dtos/producto-filtros.dto';
 
 @ApiTags('Productos')
@@ -48,23 +49,12 @@ export class ProductosController {
     };
   }
 
-  // TODO: Cuanto estén establecidas las relaciones
-  @Patch('/:productId/categorias/:categoryId')
+  @Patch('/:productId/categoria/')
   @ApiOperation({ summary: 'Añade una categoría a un producto' })
   addCategoryToProduct(
     @Param('productId') productId: string,
-    @Param('categoryId', MongoIdPipe) categoryId: string,
+    @Body() updateCategoryDto: ActualizarCategoriaProductoDto,
   ) {
-    return 'producto add category';
-  }
-
-  // TODO: Cuanto estén establecidas las relaciones
-  @Delete('/:productId/categorias/:categoryId')
-  @ApiOperation({ summary: 'Elimina una categoría de un producto' })
-  removeCategoryFromProduct(
-    @Param('productId') productId: string,
-    @Param('categoryId', MongoIdPipe) categoryId: string,
-  ) {
-    return 'producto remove category';
+    return this.productService.updateProductCategory(productId, updateCategoryDto);
   }
 }
