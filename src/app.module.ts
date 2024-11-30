@@ -10,6 +10,7 @@ import { DatabaseModule } from './database/database.module';
 import { environments } from './enviroments';
 import { OperadoresModule } from './operadores/operadores.module';
 import { ProductosModule } from './productos/productos.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ProductosModule } from './productos/productos.module';
     OperadoresModule,
     ProductosModule,
     DatabaseModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
