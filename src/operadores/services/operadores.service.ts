@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 
 import { Injectable, NotFoundException } from '@nestjs/common';
@@ -27,11 +28,19 @@ export class OperadoresService {
     return operator;
   }
 
+  async findByEmail(email: string) {
+    return await this.operatorRepository.findOne({ email }).exec();
+  }
+
   async create(operator: CrearOperadorDto) {
     const newOperator = new this.operatorRepository(operator);
+    const hasedPassword = await bcrypt.hash(operator.password, 10);
+    newOperator.password = hasedPassword;
     const savedOperator = await newOperator.save();
 
-    return savedOperator;
+    const { password, ...rest } = savedOperator.toObject();
+
+    return rest;
   }
 
   async update(id: string, updatedOperator: ActualizarOperadorDto) {
