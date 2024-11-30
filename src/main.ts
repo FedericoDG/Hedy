@@ -7,6 +7,10 @@ import { MongooseTransformInterceptor } from './common/mongoose-transform.interc
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors({
+    origin: '*', // Permite cualquier origen
+    methods: '*', // Permite cualquier método (GET, POST, etc.)
+  });
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true, // evita campos extras en el Payload al crear
