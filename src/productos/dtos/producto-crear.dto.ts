@@ -10,7 +10,7 @@ import {
 
 import { ApiProperty } from '@nestjs/swagger';
 
-import { CrearCategoriaDto } from './categoria-crear.dto';
+import { ActualizarCategoriaProductoDto } from './producto-actualizar-categoria.dto';
 
 export class CrearProductoDto {
   @ApiProperty()
@@ -50,5 +50,5 @@ export class CrearProductoDto {
   @ApiProperty()
   @ValidateNested() // -> Validar que el DTO de la categoria sea válido
   @IsNotEmpty()
-  categoria: CrearCategoriaDto;
+  categoria: ActualizarCategoriaProductoDto;
 }

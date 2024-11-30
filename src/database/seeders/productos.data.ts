@@ -9,6 +9,7 @@ export const productosData = [
     stock: 100,
     origen: 'Argentina',
     imagen: 'https://example.com/producto1.jpg',
+    fabricante: new Types.ObjectId('6481e76153cdd52b5dabc301'),
   },
   {
     _id: new Types.ObjectId('6481e76153cdd52b5dabc202'),
@@ -18,6 +19,12 @@ export const productosData = [
     stock: 200,
     origen: 'México',
     imagen: 'https://example.com/producto2.jpg',
+    categoria: {
+      _id: new Types.ObjectId('6481e76153cdd52b5dabc402'),
+      nombre: 'Categoría B',
+      imagen: 'https://example.com/categoriab.jpg',
+    },
+    fabricante: new Types.ObjectId('6481e76153cdd52b5dabc302'),
   },
   {
     _id: new Types.ObjectId('6481e76153cdd52b5dabc203'),
@@ -27,6 +34,12 @@ export const productosData = [
     stock: 300,
     origen: 'Colombia',
     imagen: 'https://example.com/producto3.jpg',
+    categoria: {
+      _id: new Types.ObjectId('6481e76153cdd52b5dabc403'),
+      nombre: 'Categoría C',
+      imagen: 'https://example.com/categoriac.jpg',
+    },
+    fabricante: new Types.ObjectId('6481e76153cdd52b5dabc303'),
   },
   {
     _id: new Types.ObjectId('6481e76153cdd52b5dabc204'),
@@ -36,6 +49,12 @@ export const productosData = [
     stock: 400,
     origen: 'Chile',
     imagen: 'https://example.com/producto4.jpg',
+    categoria: {
+      _id: new Types.ObjectId('6481e76153cdd52b5dabc404'),
+      nombre: 'Categoría D',
+      imagen: 'https://example.com/categoriad.jpg',
+    },
+    fabricante: new Types.ObjectId('6481e76153cdd52b5dabc304'),
   },
   {
     _id: new Types.ObjectId('6481e76153cdd52b5dabc205'),
@@ -45,6 +64,12 @@ export const productosData = [
     stock: 500,
     origen: 'Perú',
     imagen: 'https://example.com/producto5.jpg',
+    categoria: {
+      _id: new Types.ObjectId('6481e76153cdd52b5dabc405'),
+      nombre: 'Categoría E',
+      imagen: 'https://example.com/categoriae.jpg',
+    },
+    fabricante: new Types.ObjectId('6481e76153cdd52b5dabc305'),
   },
   {
     _id: new Types.ObjectId('6481e76153cdd52b5dabc206'),
@@ -54,6 +79,12 @@ export const productosData = [
     stock: 600,
     origen: 'Filipinas',
     imagen: 'https://example.com/producto6.jpg',
+    categoria: {
+      _id: new Types.ObjectId('6481e76153cdd52b5dabc401'),
+      nombre: 'Categoría A',
+      imagen: 'https://example.com/categoriaa.jpg',
+    },
+    fabricante: new Types.ObjectId('6481e76153cdd52b5dabc301'),
   },
   {
     _id: new Types.ObjectId('6481e76153cdd52b5dabc207'),
@@ -63,6 +94,12 @@ export const productosData = [
     stock: 700,
     origen: 'España',
     imagen: 'https://example.com/producto7.jpg',
+    categoria: {
+      _id: new Types.ObjectId('6481e76153cdd52b5dabc402'),
+      nombre: 'Categoría B',
+      imagen: 'https://example.com/categoriab.jpg',
+    },
+    fabricante: new Types.ObjectId('6481e76153cdd52b5dabc302'),
   },
   {
     _id: new Types.ObjectId('6481e76153cdd52b5dabc208'),
@@ -72,6 +109,12 @@ export const productosData = [
     stock: 800,
     origen: 'Italia',
     imagen: 'https://example.com/producto8.jpg',
+    categoria: {
+      _id: new Types.ObjectId('6481e76153cdd52b5dabc403'),
+      nombre: 'Categoría C',
+      imagen: 'https://example.com/categoriac.jpg',
+    },
+    fabricante: new Types.ObjectId('6481e76153cdd52b5dabc303'),
   },
   {
     _id: new Types.ObjectId('6481e76153cdd52b5dabc209'),
@@ -81,6 +124,12 @@ export const productosData = [
     stock: 900,
     origen: 'Japón',
     imagen: 'https://example.com/producto9.jpg',
+    categoria: {
+      _id: new Types.ObjectId('6481e76153cdd52b5dabc404'),
+      nombre: 'Categoría D',
+      imagen: 'https://example.com/categoriad.jpg',
+    },
+    fabricante: new Types.ObjectId('6481e76153cdd52b5dabc304'),
   },
   {
     _id: new Types.ObjectId('6481e76153cdd52b5dabc210'),
@@ -90,5 +139,11 @@ export const productosData = [
     stock: 1000,
     origen: 'Corea del Sur',
     imagen: 'https://example.com/producto10.jpg',
+    categoria: {
+      _id: new Types.ObjectId('6481e76153cdd52b5dabc405'),
+      nombre: 'Categoría E',
+      imagen: 'https://example.com/categoriae.jpg',
+    },
+    fabricante: new Types.ObjectId('6481e76153cdd52b5dabc305'),
   },
 ];

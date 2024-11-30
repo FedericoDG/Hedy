@@ -23,5 +23,6 @@ import { PedidosService } from './services/pedidos.service';
   ],
   controllers: [CompradoresController, OperadoresController, PedidosController],
   providers: [CompradoresService, OperadoresService, PedidosService],
+  exports: [OperadoresService],
 })
 export class OperadoresModule {}

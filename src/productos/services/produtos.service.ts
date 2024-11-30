@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 
 import { ActualizarProductoDto } from '../../productos/dtos/producto-actualizar.dto';
 import { CrearProductoDto } from '../../productos/dtos/producto-crear.dto';
+import { ActualizarCategoriaProductoDto } from '../dtos/producto-actualizar-categoria.dto';
 import { ProductoFiltrosDto } from '../dtos/producto-filtros.dto';
 import { Producto } from '../entities/producto.entity';
 
@@ -30,10 +31,6 @@ export class ProductosService {
     }
 
     return products;
-
-    /*  return products.map((product) => ({
-      ...product.toObject(),
-    })); */
   }
 
   async findOne(id: string) {
@@ -69,29 +66,22 @@ export class ProductosService {
   async delete(id: string) {
     return await this.productRepository.findByIdAndDelete(id);
   }
+
+  async updateProductCategory(
+    productId: string,
+    updateCategoryDto: ActualizarCategoriaProductoDto,
+  ) {
+    const product = await this.productRepository.findById(productId);
+
+    if (!product) {
+      throw new NotFoundException(`Producto con id: ${productId} no encontrado`);
+    }
+
+    product.categoria = {
+      nombre: updateCategoryDto.nombre,
+      imagen: updateCategoryDto.imagen,
+    };
+
+    return product.save();
+  }
 }
-
-// TODO: Cuando estén las relaciones con Categorias
-/*   async removeCategoryByProduct(productId: number, categoryId: number) {
-    const product = await this.productRepository.findOne({
-      where: { id: productId },
-      relations: ['categorias'],
-    });
-
-    product.categorias = product.categorias.filter((category) => category.id !== categoryId);
-
-    return await this.productRepository.save(product);
-  }
-
-  async addCategoryByProduct(productId: number, categoryId: number) {
-    const product = await this.productRepository.findOne({
-      where: { id: productId },
-      relations: ['categorias'],
-    });
-
-    const category = await this.categoriaRepository.findOne({ where: { id: categoryId } });
-    product.categorias.push(category);
-
-    return await this.productRepository.save(product);
-  }
-} */
