@@ -44,7 +44,6 @@ export class ProductosService {
   }
 
   async create(product: CrearProductoDto) {
-    console.log(product);
     const newProduct = new this.productRepository(product);
     const savedProduct = await newProduct.save();
 

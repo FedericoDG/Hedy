@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { Public } from '../../auth/decorators/public.decorator';
 import { Roles } from '../../auth/decorators/roles.decorator';
@@ -13,6 +14,7 @@ import { PedidosService } from '../services/pedidos.service';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('pedidos')
+@ApiTags('Pedidos')
 export class PedidosController {
   constructor(private readonly pedidoService: PedidosService) {}
 

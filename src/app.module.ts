@@ -5,12 +5,12 @@ import { ConfigModule } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
 import config from './config';
 import { DatabaseModule } from './database/database.module';
 import { environments } from './enviroments';
 import { OperadoresModule } from './operadores/operadores.module';
 import { ProductosModule } from './productos/productos.module';
-import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
