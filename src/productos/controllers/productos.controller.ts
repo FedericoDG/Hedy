@@ -1,6 +1,21 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+import { Public } from '../../auth/decorators/public.decorator';
+import { Roles } from '../../auth/decorators/roles.decorator';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../../auth/guards/roles.guard';
+import { Role } from '../../auth/models/role.model';
 import { MongoIdPipe } from '../../common/mongo-id.pipe';
 import { ActualizarProductoDto } from '../../productos/dtos/producto-actualizar.dto';
 import { CrearProductoDto } from '../../productos/dtos/producto-crear.dto';
@@ -8,11 +23,13 @@ import { ProductosService } from '../../productos/services/produtos.service';
 import { ActualizarCategoriaProductoDto } from '../dtos/producto-actualizar-categoria.dto';
 import { ProductoFiltrosDto } from '../dtos/producto-filtros.dto';
 
+@UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('Productos')
 @Controller('productos')
 export class ProductosController {
   constructor(private readonly productService: ProductosService) {}
 
+  @Public()
   @Get()
   @ApiOperation({ summary: 'Lista todos los productos' })
   findAll(@Query() params: ProductoFiltrosDto) {
@@ -25,6 +42,7 @@ export class ProductosController {
     return this.productService.findOne(id);
   }
 
+  @Roles(Role.ADMIN)
   @Post()
   @ApiOperation({ summary: 'Crea un nuevo producto' })
   create(@Body() producto: CrearProductoDto) {
