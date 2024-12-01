@@ -36,6 +36,7 @@ export class ProductosController {
     return this.productService.findAll(params);
   }
 
+  @Public()
   @Get('/:id')
   @ApiOperation({ summary: 'Lista un solo producto, por id' })
   findOne(@Param('id', MongoIdPipe) id: string) {
@@ -49,6 +50,7 @@ export class ProductosController {
     return this.productService.create(producto);
   }
 
+  @Roles(Role.ADMIN)
   @Patch('/:id')
   @ApiOperation({ summary: 'Actualiza un producto' })
   update(@Param('id', MongoIdPipe) id: string, @Body() body: ActualizarProductoDto) {
@@ -57,6 +59,7 @@ export class ProductosController {
     return upodatedProduct;
   }
 
+  @Roles(Role.ADMIN)
   @Delete(':id')
   @ApiOperation({ summary: 'Elimina un producto' })
   delete(@Param('id', MongoIdPipe) id: string): Record<string, any> {
@@ -67,6 +70,7 @@ export class ProductosController {
     };
   }
 
+  @Roles(Role.ADMIN)
   @Patch('/:productId/categoria/')
   @ApiOperation({ summary: 'Añade una categoría a un producto' })
   addCategoryToProduct(
