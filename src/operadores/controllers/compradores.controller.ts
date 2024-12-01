@@ -1,21 +1,29 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+import { Public } from '../../auth/decorators/public.decorator';
+import { Roles } from '../../auth/decorators/roles.decorator';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../../auth/guards/roles.guard';
+import { Role } from '../../auth/models/role.model';
 import { ActualizarCompradorDto } from '../dtos/comprador-actualizar.dto';
 import { CrearCompradorDto } from '../dtos/comprador-crear.dto';
 import { CompradoresService } from '../services/compradores.service';
 
+@UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('Compradores')
 @Controller('compradores')
 export class CompradoresController {
   constructor(private readonly buyerService: CompradoresService) {}
 
+  @Public()
   @Get()
   @ApiOperation({ summary: 'Lista todos los compradores' })
   findAll() {
     return this.buyerService.findAll();
   }
 
+  @Public()
   @Get('/:id')
   @ApiOperation({ summary: 'Lista un solo comprador, por id' })
   findOne(@Param('id') id: string) {
@@ -36,6 +44,7 @@ export class CompradoresController {
     return upodatedProduct;
   }
 
+  @Roles(Role.ADMIN)
   @Delete(':id')
   @ApiOperation({ summary: 'Elimina un comprador' })
   delete(@Param('id') id: string): Record<string, any> {
