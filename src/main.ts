@@ -25,9 +25,8 @@ async function bootstrap() {
   app.useGlobalInterceptors(new MongooseTransformInterceptor());
   const config = new DocumentBuilder()
     .setTitle('Hedy - Ecommerce')
-    .setDescription('Ecommerce API')
+    .setDescription('API para el proyecto Hedy-Ecommerce, del curso de Calilegua Backend')
     .setVersion('1.0')
-    .addTag('tag-de-ejemplo')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
