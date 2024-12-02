@@ -7,8 +7,6 @@ import { ROLES_KEY } from '../decorators/roles.decorator';
 import { PayloadToken } from '../models/payload-token.model';
 import { Role } from '../models/role.model';
 
-// Asegúrate de que la ruta sea correcta
-
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
