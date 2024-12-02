@@ -25,6 +25,7 @@ import { ProductosModule } from './productos/productos.module';
         MONGO_INITDB_ROOT_PASSWORD: Joi.string().required(),
         MONGO_INITDB_DATABASE: Joi.string().required(),
         MONGO_CONNECTION: Joi.string().required(),
+        JWTSECRET: Joi.string().required(),
       }), // validaciones con Joi
       isGlobal: true,
     }),

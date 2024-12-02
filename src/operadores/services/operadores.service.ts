@@ -44,6 +44,7 @@ export class OperadoresService {
   }
 
   async update(id: string, updatedOperator: ActualizarOperadorDto) {
+    updatedOperator.password = await bcrypt.hash(updatedOperator.password, 10);
     const operator = await this.operatorRepository
       .findByIdAndUpdate(id, updatedOperator, { new: true })
       .exec();

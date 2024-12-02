@@ -30,6 +30,7 @@ export class CompradoresController {
     return this.buyerService.findOne(id);
   }
 
+  @Roles(Role.ADMIN)
   @Post()
   @ApiOperation({ summary: 'Crea un nuevo comprador' })
   create(@Body() buyer: CrearCompradorDto) {
