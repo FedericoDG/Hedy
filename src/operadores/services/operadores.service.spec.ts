@@ -1,5 +1,7 @@
+import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { Operador } from '../entities/operador.entity';
 import { OperadoresService } from './operadores.service';
 
 describe('OperadoresService', () => {
@@ -7,7 +9,16 @@ describe('OperadoresService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [OperadoresService],
+      providers: [
+        OperadoresService,
+        {
+          provide: getModelToken(Operador.name),
+          useValue: {
+            find: jest.fn().mockResolvedValue([]),
+            // Añade más métodos si es necesario
+          },
+        },
+      ],
     }).compile();
 
     service = module.get<OperadoresService>(OperadoresService);

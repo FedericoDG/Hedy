@@ -6,7 +6,7 @@ import { ProductosController } from './controllers/productos.controller';
 import { Fabricante, FabricanteSchema } from './entities/fabricante.entity';
 import { Producto, ProductoSchema } from './entities/producto.entity';
 import { FabricantesService } from './services/fabricantes.service';
-import { ProductosService } from './services/produtos.service';
+import { ProductosService } from './services/productos.service';
 
 @Module({
   imports: [
