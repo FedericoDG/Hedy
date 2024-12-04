@@ -19,9 +19,9 @@ import { Role } from '../../auth/models/role.model';
 import { MongoIdPipe } from '../../common/mongo-id.pipe';
 import { ActualizarProductoDto } from '../../productos/dtos/producto-actualizar.dto';
 import { CrearProductoDto } from '../../productos/dtos/producto-crear.dto';
-import { ProductosService } from '../../productos/services/produtos.service';
 import { ActualizarCategoriaProductoDto } from '../dtos/producto-actualizar-categoria.dto';
 import { ProductoFiltrosDto } from '../dtos/producto-filtros.dto';
+import { ProductosService } from '../services/productos.service';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('Productos')
