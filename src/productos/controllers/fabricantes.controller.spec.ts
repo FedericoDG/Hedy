@@ -9,7 +9,7 @@ import { FabricantesController } from './fabricantes.controller';
 describe('FabricantesController', () => {
   let controller: FabricantesController;
 
-  const mockProductosService = {
+  const mockService = {
     findOne: jest.fn((_id) => {
       if (_id === '6481e76153cdd52b5dabc301') {
         return {
@@ -32,7 +32,7 @@ describe('FabricantesController', () => {
       providers: [
         {
           provide: FabricantesService,
-          useValue: mockProductosService,
+          useValue: mockService,
         },
       ],
     })
@@ -55,7 +55,7 @@ describe('FabricantesController', () => {
     } catch (error) {
       expect(error).toBeInstanceOf(NotFoundException);
       expect(error.message).toBe('Fabricante con id 6481e76153cdd52b5dabc999 no encontrado');
-      expect(mockProductosService.findOne).toHaveBeenCalledWith('6481e76153cdd52b5dabc999');
+      expect(mockService.findOne).toHaveBeenCalledWith('6481e76153cdd52b5dabc999');
     }
   });
 

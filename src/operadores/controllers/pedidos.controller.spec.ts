@@ -9,7 +9,7 @@ import { PedidosController } from './pedidos.controller';
 describe('PedidosController', () => {
   let controller: PedidosController;
 
-  const mockProductosService = {
+  const mockService = {
     findOne: jest.fn((_id) => {
       if (_id === '674b7944f7c758a70c72d101') {
         return {
@@ -31,7 +31,7 @@ describe('PedidosController', () => {
       providers: [
         {
           provide: PedidosService,
-          useValue: mockProductosService,
+          useValue: mockService,
         },
       ],
     })
@@ -54,7 +54,7 @@ describe('PedidosController', () => {
     } catch (error) {
       expect(error).toBeInstanceOf(NotFoundException);
       expect(error.message).toBe('Pedido con id 674b7944f7c758a70c72d999 no encontrado');
-      expect(mockProductosService.findOne).toHaveBeenCalledWith('674b7944f7c758a70c72d999');
+      expect(mockService.findOne).toHaveBeenCalledWith('674b7944f7c758a70c72d999');
     }
   });
 
