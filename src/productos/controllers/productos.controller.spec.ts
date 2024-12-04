@@ -9,7 +9,7 @@ import { ProductosController } from './productos.controller';
 describe('ProductosController', () => {
   let controller: ProductosController;
 
-  const mockProductosService = {
+  const mockService = {
     findOne: jest.fn((_id) => {
       if (_id === '6481e76153cdd52b5dabc201') {
         return {
@@ -35,7 +35,7 @@ describe('ProductosController', () => {
       providers: [
         {
           provide: ProductosService,
-          useValue: mockProductosService,
+          useValue: mockService,
         },
       ],
     })
@@ -58,7 +58,7 @@ describe('ProductosController', () => {
     } catch (error) {
       expect(error).toBeInstanceOf(NotFoundException);
       expect(error.message).toBe('Producto con id 6481e76153cdd52b5dabc999 no encontrado');
-      expect(mockProductosService.findOne).toHaveBeenCalledWith('6481e76153cdd52b5dabc999');
+      expect(mockService.findOne).toHaveBeenCalledWith('6481e76153cdd52b5dabc999');
     }
   });
 

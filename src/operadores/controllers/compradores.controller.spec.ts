@@ -9,7 +9,7 @@ import { CompradoresController } from './compradores.controller';
 describe('CompradoresController', () => {
   let controller: CompradoresController;
 
-  const mockProductosService = {
+  const mockService = {
     findOne: jest.fn((_id) => {
       if (_id === '6481e76153cdd52b5dabc101') {
         return {
@@ -38,7 +38,7 @@ describe('CompradoresController', () => {
       providers: [
         {
           provide: CompradoresService,
-          useValue: mockProductosService,
+          useValue: mockService,
         },
       ],
     })
@@ -61,7 +61,7 @@ describe('CompradoresController', () => {
     } catch (error) {
       expect(error).toBeInstanceOf(NotFoundException);
       expect(error.message).toBe('Comprador con id 6481e76153cdd52b5dabc999 no encontrado');
-      expect(mockProductosService.findOne).toHaveBeenCalledWith('6481e76153cdd52b5dabc999');
+      expect(mockService.findOne).toHaveBeenCalledWith('6481e76153cdd52b5dabc999');
     }
   });
 

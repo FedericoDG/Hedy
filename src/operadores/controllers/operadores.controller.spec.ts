@@ -9,7 +9,7 @@ import { OperadoresController } from './operadores.controller';
 describe('OperadoresController', () => {
   let controller: OperadoresController;
 
-  const mockProductosService = {
+  const mockService = {
     findOne: jest.fn((_id) => {
       if (_id === '6481e76153cdd52b5dabc501') {
         return {
@@ -31,7 +31,7 @@ describe('OperadoresController', () => {
       providers: [
         {
           provide: OperadoresService,
-          useValue: mockProductosService,
+          useValue: mockService,
         },
       ],
     })
@@ -54,7 +54,7 @@ describe('OperadoresController', () => {
     } catch (error) {
       expect(error).toBeInstanceOf(NotFoundException);
       expect(error.message).toBe('Operador con id 6481e76153cdd52b5dabc999 no encontrado');
-      expect(mockProductosService.findOne).toHaveBeenCalledWith('6481e76153cdd52b5dabc999');
+      expect(mockService.findOne).toHaveBeenCalledWith('6481e76153cdd52b5dabc999');
     }
   });
 

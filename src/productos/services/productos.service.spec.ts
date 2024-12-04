@@ -6,7 +6,7 @@ import { ProductosService } from './productos.service';
 describe('ProductosService', () => {
   let service: ProductosService;
 
-  const mockProductosService = {
+  const mockService = {
     productos: [
       {
         _id: '6481e76153cdd52b5dabc201',
@@ -27,14 +27,14 @@ describe('ProductosService', () => {
         imagen: 'https://example.com/producto2.jpg',
       },
     ],
-    findAll: jest.fn(() => mockProductosService.productos),
-    findOne: jest.fn((_id) => mockProductosService.productos.find((p: Producto) => p._id === _id)),
+    findAll: jest.fn(() => mockService.productos),
+    findOne: jest.fn((_id) => mockService.productos.find((p: Producto) => p._id === _id)),
     create: jest.fn((producto) => {
-      mockProductosService.productos.push(producto);
+      mockService.productos.push(producto);
       return producto;
     }),
     update: jest.fn((_id, updateData) => {
-      const producto = mockProductosService.productos.find((p: Producto) => p._id === _id);
+      const producto = mockService.productos.find((p: Producto) => p._id === _id);
       if (!producto) {
         return null;
       }
@@ -42,15 +42,15 @@ describe('ProductosService', () => {
       return producto;
     }),
     delete: jest.fn((_id) => {
-      const index = mockProductosService.productos.findIndex((p: Producto) => p._id === _id);
+      const index = mockService.productos.findIndex((p: Producto) => p._id === _id);
       if (index === -1) {
         return null;
       }
-      const deletedProducto = mockProductosService.productos.splice(index, 1);
+      const deletedProducto = mockService.productos.splice(index, 1);
       return deletedProducto[0];
     }),
     updateProductCategory: jest.fn((productId, updateCategoryDto) => {
-      const producto = mockProductosService.productos.find((p: Producto) => p._id === productId);
+      const producto = mockService.productos.find((p: Producto) => p._id === productId);
       if (!producto) {
         return null;
       }
@@ -63,7 +63,7 @@ describe('ProductosService', () => {
   };
 
   beforeEach(() => {
-    mockProductosService.productos = [
+    mockService.productos = [
       {
         _id: '6481e76153cdd52b5dabc201',
         nombre: 'Producto 1',
@@ -91,7 +91,7 @@ describe('ProductosService', () => {
         ProductosService,
         {
           provide: ProductosService,
-          useValue: mockProductosService,
+          useValue: mockService,
         },
       ],
     }).compile();
@@ -115,13 +115,13 @@ describe('ProductosService', () => {
       origen: 'Argentina',
       imagen: 'https://example.com/producto1.jpg',
     });
-    expect(mockProductosService.findOne).toHaveBeenCalledWith(_id);
+    expect(mockService.findOne).toHaveBeenCalledWith(_id);
   });
 
   it('should return the correct number of products when findAll is called', async () => {
     const result = await service.findAll();
     expect(result.length).toBe(2);
-    expect(mockProductosService.findAll).toHaveBeenCalled();
+    expect(mockService.findAll).toHaveBeenCalled();
   });
 
   it('should create a new product', () => {
@@ -140,7 +140,7 @@ describe('ProductosService', () => {
     };
     const result = service.create(newProduct);
     expect(result).toEqual(newProduct);
-    expect(mockProductosService.productos.length).toBe(3);
+    expect(mockService.productos.length).toBe(3);
   });
 
   it('should update an existing product', () => {
@@ -173,7 +173,7 @@ describe('ProductosService', () => {
       origen: 'Argentina',
       imagen: 'https://example.com/producto1.jpg',
     });
-    expect(mockProductosService.productos.length).toBe(1);
+    expect(mockService.productos.length).toBe(1);
   });
 
   it('should return null if the product does not exist', () => {
@@ -202,10 +202,7 @@ describe('ProductosService', () => {
         imagen: 'https://example.com/categoria-actualizada.jpg',
       },
     });
-    expect(mockProductosService.updateProductCategory).toHaveBeenCalledWith(
-      productId,
-      updateCategoryDto,
-    );
+    expect(mockService.updateProductCategory).toHaveBeenCalledWith(productId, updateCategoryDto);
   });
 
   it('should return null if the product does not exist when updating category', () => {
